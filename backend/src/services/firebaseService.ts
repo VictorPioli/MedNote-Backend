@@ -24,13 +24,34 @@ class FirebaseService {
   private initializeFirebase() {
     try {
       if (!this.initialized && admin.apps.length === 0) {
-        // Caminho para o arquivo de credenciais (service account)
-        // Usando require para carregar o arquivo JSON diretamente
-        const serviceAccount = require('../../keys/mednote-8ae39-firebase-adminsdk-fbsvc-a8eccf6a10.json');
+        // Configuração usando variáveis de ambiente (produção) ou arquivo local (desenvolvimento)
+        let credential;
+        
+        if (process.env.FIREBASE_PRIVATE_KEY) {
+          // Produção: usar variáveis de ambiente
+          const serviceAccount = {
+            type: process.env.FIREBASE_TYPE,
+            project_id: process.env.FIREBASE_PROJECT_ID,
+            private_key_id: process.env.FIREBASE_PRIVATE_KEY_ID,
+            private_key: process.env.FIREBASE_PRIVATE_KEY?.replace(/\\n/g, '\n'),
+            client_email: process.env.FIREBASE_CLIENT_EMAIL,
+            client_id: process.env.FIREBASE_CLIENT_ID,
+            auth_uri: process.env.FIREBASE_AUTH_URI,
+            token_uri: process.env.FIREBASE_TOKEN_URI,
+            auth_provider_x509_cert_url: process.env.FIREBASE_AUTH_PROVIDER_X509_CERT_URL,
+            client_x509_cert_url: process.env.FIREBASE_CLIENT_X509_CERT_URL,
+            universe_domain: process.env.FIREBASE_UNIVERSE_DOMAIN
+          };
+          credential = admin.credential.cert(serviceAccount as admin.ServiceAccount);
+        } else {
+          // Desenvolvimento: usar arquivo local
+          const serviceAccount = require('../../keys/mednote-8ae39-firebase-adminsdk-fbsvc-a8eccf6a10.json');
+          credential = admin.credential.cert(serviceAccount);
+        }
         
         admin.initializeApp({
-          credential: admin.credential.cert(serviceAccount),
-          projectId: 'mednote-8ae39'
+          credential: credential,
+          projectId: process.env.FIREBASE_PROJECT_ID || 'mednote-8ae39'
         });
 
         this.db = admin.firestore();
