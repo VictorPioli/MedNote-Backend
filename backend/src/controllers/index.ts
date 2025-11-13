@@ -1,0 +1,1 @@
+export { MedicalController } from './medicalController';

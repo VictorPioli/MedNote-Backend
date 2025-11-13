@@ -1,0 +1,43 @@
+{
+  "name": "mednote-backend",
+  "version": "1.0.0",
+  "description": "Backend para o Médico Copilot - IA de Voz e Diagnóstico",
+  "main": "dist/server.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/server.js",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [
+    "medical",
+    "ai",
+    "diagnosis",
+    "typescript",
+    "express"
+  ],
+  "author": "MedNote.IA",
+  "license": "MIT",
+  "dependencies": {
+    "@types/uuid": "^11.0.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
+    "express-rate-limit": "^7.1.5",
+    "firebase-admin": "^13.6.0",
+    "franc": "^6.2.0",
+    "helmet": "^7.1.0",
+    "langdetect": "^0.2.1",
+    "multer": "^1.4.5-lts.1",
+    "openai": "^4.20.1",
+    "uuid": "^13.0.0"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/multer": "^1.4.11",
+    "@types/node": "^20.8.10",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.2.2"
+  }
+}
